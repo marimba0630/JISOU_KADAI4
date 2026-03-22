@@ -7,6 +7,7 @@ import {
 } from "../domain/record";
 
 import type { Database } from "../types/database.types";
+import type { newMeishiFormValues } from "../types/DataType";
 
 type TableMap = {
   users: UserRecord;
@@ -83,7 +84,6 @@ export const getSpecifyMeishiRecord = async (
     .eq("user_id", user_id)
     .single();
 
-  console.log(data);
   if (error) {
     throw new Error(error.message);
   }
@@ -99,4 +99,27 @@ export const getSpecifyMeishiRecord = async (
   );
 
   return MeishiData;
+};
+
+export const insertNewMeishiRecord = async (data: newMeishiFormValues) => {
+  const response_users = await supabase.from("users").insert({
+    user_id: data.user_id,
+    name: data.name,
+    description: data.description,
+    github_id: data.github_id,
+    qiita_id: data.qiita_id,
+    x_id: data.x_id,
+  });
+
+  if (response_users.error) {
+    throw new Error(response_users.error.message);
+  }
+
+  const respones_user_skill = await supabase
+    .from("user_skill")
+    .insert({ user_id: data.user_id, skill_id: Number(data.skill) });
+
+  if (respones_user_skill.error) {
+    throw new Error(respones_user_skill.error.message);
+  }
 };

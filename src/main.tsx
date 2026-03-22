@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
+import { App } from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import { ShowMeishi } from "./pages/ShowMeishi";
