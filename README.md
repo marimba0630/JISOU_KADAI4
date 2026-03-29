@@ -1,73 +1,39 @@
-# React + TypeScript + Vite
+# 学習記録アプリ
+このアプリはReactとsupabaseを使用したWebアプリです。
+また、リポジトリはgithubにpushするとGithub Actionsで
+Test → Build → Deploy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# アプリ説明
+日々の学習の内容と学習時間の記録と総学習時間の見える化をした
+アプリです。  
+学習内容と0より大きい数字を入力して登録を押すと
+記録が保存され、削除したい記録の隣の「削除」ボタンを押すと
+削除されます。
 
-Currently, two official plugins are available:
+# 環境設定の方法
+1. `.env`ファイルを作成し、以下の内容を記載してください。  
+VITE_SUPABASE_URL=SUPABASEのプロジェクトURL(SUPABASE_URLも同様)  
+VITE_SUPABASE_ANON_KEY=SUPABASEのANON_KEY(SUPABASE_ANON_KEYも同様)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+Firebaseのプロジェクトコンフィグ情報を記載する  
+https://zenn.dev/h_yoshikawa0724/articles/2020-10-06-react-firebase-deploy?redirected=1  
+上記サイトを参考にFirebaseにプロジェクトを作り、それぞれ設定する  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+VITE_REACT_APP_APP_KEY=※apikey  
+VITE_REACT_APP_AUTH_DOMAIN=※authDomain  
+VITE_REACT_APP_PROJECT_ID=※projectId  
+VITE_REACT_APP_STORAGEBUCKET=※storageBucket  
+VITE_REACT_APP_MESSAGING_SENDER_ID=※messagingSenderId  
+VITE_REACT_APP_APP_ID=※appId  
+VITE_REACT_APP_MEASUREMENT_ID=※measurementId  
 
-## Expanding the ESLint configuration
+2. Makeファイルを実行して、firebaseへデプロイします  
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1, 2まで対応するとローカルで動きます。  
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+# 起動の仕方
+ローカルにpullした後、リポジトリ直下へ
+ディレクトリへ移動。その後、
+コマンドプロンプトで「npm run dev」を叩くと
+ローカルで起動する

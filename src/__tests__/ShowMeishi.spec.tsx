@@ -42,7 +42,7 @@ beforeEach(() => {
 });
 
 describe("Show Meishi", () => {
-  it("should render name", async () => {
+  it("should render title", async () => {
     render(
       <ChakraProvider value={defaultSystem}>
         <MemoryRouter initialEntries={["/cards/sample_id"]}>

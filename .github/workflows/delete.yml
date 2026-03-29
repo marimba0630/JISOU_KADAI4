@@ -1,0 +1,22 @@
+name: Delete the previous day's Meishi
+on:
+  schedule:
+    - cron: "0 21 * * *"
+  workflow_dispatch:
+
+jobs:
+  Delete the previous day's Meishi:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install
+        uses: npm install
+
+      - name: Run
+        uses: npx ts-node --esm ./batch/index.ts

@@ -18,7 +18,7 @@ export const App = () => {
   return (
     <>
       <Box>
-        <Text fontWeight="semibold" fontSize="xl" textAlign="center">
+        <Text data-testid="title" fontWeight="semibold" fontSize="xl" textAlign="center">
           デジタル名刺
         </Text>
       </Box>
@@ -27,6 +27,7 @@ export const App = () => {
           <Field.Label htmlFor="use_id">ユーザーID</Field.Label>
           <Input
             id="user_id"
+            data-testid="user_id"
             w="200px"
             margin="10px"
             {...register("user_id", {
@@ -34,7 +35,7 @@ export const App = () => {
                 value.trim() !== "" || "閲覧にはユーザーIDは必須です",
             })}
           ></Input>
-          <Field.ErrorText>{errors.user_id?.message}</Field.ErrorText>
+          <Field.ErrorText data-testid="user_id_error">{errors.user_id?.message}</Field.ErrorText>
         </Field.Root>
         <Button
           colorPalette="teal"

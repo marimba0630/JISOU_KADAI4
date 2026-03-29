@@ -16,7 +16,7 @@ import {
   getAllRecords,
   insertNewMeishiRecord,
 } from "../lib/supabaseCRUDFunctions";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import type { newMeishiFormValues } from "../types/DataType";
 import { useNavigate } from "react-router-dom";
 
@@ -30,6 +30,7 @@ export const RegisterMeishi = () => {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<newMeishiFormValues>({
     defaultValues: {
       user_id: "",
@@ -61,7 +62,7 @@ export const RegisterMeishi = () => {
   const onSubmit = async (newRecord: newMeishiFormValues) => {
     try {
       setRegistering(true);
-      await sleep(1000);
+      //await sleep(1000);
       await insertNewMeishiRecord(newRecord);
       navigate("/");
     } catch (error) {
@@ -85,7 +86,12 @@ export const RegisterMeishi = () => {
     return (
       <>
         <Box>
-          <Text fontWeight="semibold" fontSize="xl" textAlign="center">
+          <Text
+            fontWeight="semibold"
+            fontSize="xl"
+            textAlign="center"
+            data-testid="title"
+          >
             新規名刺登録
           </Text>
         </Box>
@@ -98,6 +104,7 @@ export const RegisterMeishi = () => {
                   <Field.RequiredIndicator />
                 </Field.Label>
                 <Input
+                  data-testid="user_id"
                   id="user_id"
                   {...register("user_id", {
                     validate: {
@@ -109,7 +116,7 @@ export const RegisterMeishi = () => {
                     },
                   })}
                 />
-                <Field.ErrorText>{errors.user_id?.message}</Field.ErrorText>
+                <Field.ErrorText data-testid="user_id_error">{errors.user_id?.message}</Field.ErrorText>
               </Field.Root>
               <Field.Root required invalid={!!errors.name}>
                 <Field.Label htmlFor="name">
@@ -117,13 +124,14 @@ export const RegisterMeishi = () => {
                   <Field.RequiredIndicator />
                 </Field.Label>
                 <Input
+                  data-testid="name"
                   id="name"
                   {...register("name", {
                     validate: (value) =>
                       value.trim() !== "" || "名前の入力は必須です",
                   })}
                 />
-                <Field.ErrorText>{errors.name?.message}</Field.ErrorText>
+                <Field.ErrorText data-testid="name_error">{errors.name?.message}</Field.ErrorText>
               </Field.Root>
               <Field.Root required invalid={!!errors.description}>
                 <Field.Label htmlFor="description">
@@ -131,6 +139,7 @@ export const RegisterMeishi = () => {
                   <Field.RequiredIndicator />
                 </Field.Label>
                 <Textarea
+                  data-testid="description"
                   id="description"
                   rows={5}
                   placeholder="<h1>HTMLタグも使えます</h1>"
@@ -139,40 +148,46 @@ export const RegisterMeishi = () => {
                       value.trim() !== "" || "自己紹介の入力は必須です",
                   })}
                 />
-                <Field.ErrorText>{errors.description?.message}</Field.ErrorText>
+                <Field.ErrorText data-testid="description_error">{errors.description?.message}</Field.ErrorText>
               </Field.Root>
               <Field.Root required invalid={!!errors.skill}>
                 <Field.Label htmlFor="skill">
                   好きな技術
                   <Field.RequiredIndicator />
                 </Field.Label>
-                <NativeSelect.Root>
-                  <NativeSelect.Field
-                    {...register("skill", {
-                      validate: (value) =>
-                        value.trim() !== "" || "好きな技術の選択は必須です",
-                    })}
-                  >
-                    <option value="">Select Option</option>
-                    {skills.map((record) => (
-                      <option value={record.id}>{record.name}</option>
-                    ))}
-                  </NativeSelect.Field>
-                  <NativeSelect.Indicator />
-                </NativeSelect.Root>
-                <Field.ErrorText>{errors.skill?.message}</Field.ErrorText>
+                <Controller
+                  name="skill"
+                  control={control}
+                  rules={{
+                    validate: (value) =>
+                      String(value).trim() !== "" ||
+                      "好きな技術の選択は必須です",
+                  }}
+                  render={({ field }) => (
+                    <NativeSelect.Root>
+                      <NativeSelect.Field data-testid="skill" {...field}>
+                        <option value="">Select Option</option>
+                        {skills.map((record) => (
+                          <option value={record.id}>{record.name}</option>
+                        ))}
+                      </NativeSelect.Field>
+                      <NativeSelect.Indicator />
+                    </NativeSelect.Root>
+                  )}
+                />
+                <Field.ErrorText data-testid="skill_error">{errors.skill?.message}</Field.ErrorText>
               </Field.Root>
               <Field.Root>
                 <Field.Label htmlFor="github_id">Github ID</Field.Label>
-                <Input id="github_id" {...register("github_id")} />
+                <Input data-testid="github_id" id="github_id" {...register("github_id")} />
               </Field.Root>
               <Field.Root>
                 <Field.Label htmlFor="qiita_id">Qiita ID</Field.Label>
-                <Input id="qiita_id" {...register("qiita_id")} />
+                <Input data-testid="qiita_id" id="qiita_id" {...register("qiita_id")} />
               </Field.Root>
               <Field.Root>
                 <Field.Label htmlFor="x_id">X ID</Field.Label>
-                <Input id="x_id" {...register("x_id")} />
+                <Input data-testid="x_id" id="x_id" {...register("x_id")} />
               </Field.Root>
               <Button
                 onClick={handleSubmit(onSubmit)}

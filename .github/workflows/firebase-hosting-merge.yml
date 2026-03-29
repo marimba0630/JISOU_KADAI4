@@ -10,9 +10,33 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: npm ci && npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install
+        uses: npm ci
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{secrets.VITE_SUPABASE_URL}}
+          VITE_SUPABASE_ANON_KEY: ${{secrets.VITE_SUPABASE_ANON_KEY}}
+          VITE_REACT_APP_APP_KEY: ${{secrets.VITE_REACT_APP_APP_KEY}}
+          VITE_REACT_APP_AUTH_DOMAIN: ${{secrets.VITE_REACT_APP_AUTH_DOMAIN}}
+          VITE_REACT_APP_PROJECT_ID: ${{secrets.VITE_REACT_APP_PROJECT_ID}}
+          VITE_REACT_APP_STORAGEBUCKET: ${{secrets.VITE_REACT_APP_STORAGEBUCKET}}
+          VITE_REACT_APP_MESSAGING_SENDER_ID: ${{secrets.VITE_REACT_APP_MESSAGING_SENDER_ID}}
+          VITE_REACT_APP_APP_ID: ${{secrets.VITE_REACT_APP_APP_ID}}
+          VITE_REACT_APP_MEASUREMENT_ID: ${{secrets.VITE_REACT_APP_MEASUREMENT_ID}}
+
+      - name: Deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MEISHI_7BFD7 }}
