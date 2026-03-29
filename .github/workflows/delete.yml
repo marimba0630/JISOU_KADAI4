@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v2
 
       - name: Install
-        uses: npm install
+        run: npm install
 
       - name: Run
-        uses: npx ts-node --esm ./batch/index.ts
+        run: npx ts-node --esm ./batch/index.ts
