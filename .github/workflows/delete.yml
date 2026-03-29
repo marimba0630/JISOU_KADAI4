@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Delete_the_previous_day's_Meishi:
+  Delete_the_previous_day_Meishi:
     name: build
     runs-on: ubuntu-latest
     steps:
@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
 
       - name: Install
         run: npm install
