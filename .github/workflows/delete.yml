@@ -23,3 +23,6 @@ jobs:
 
       - name: Run batch
         run: npx tsx ./batch/index.ts
+        env:
+          SUPABASE_URL: ${{secrets.SUPABASE_URL}}
+          SUPABASE_ANON_KEY: ${{secrets.SUPABASE_ANON_KEY}}
