@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Delete the previous day's Meishi:
+  Delete_the_previous_day's_Meishi:
     name: build
     runs-on: ubuntu-latest
     steps:
